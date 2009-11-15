@@ -1,22 +1,21 @@
 == DESCRIPTION:
 
-Chaser is unit test sadism(tm), like Seattlerb's Heckle. It's more or less mutation testing, except that rather than mutating every line of code it can get its claws into, it merely modifies the return value of targeted methods. If the unit tests don't notice the modified return values, or the program going haywire as a result of using those modified return values, then they aren't doing their jobs properly.
-
-Unit test sadism is a trademark of Ryan Davis and Kevin Clark, and is used without permission.
+Exemplor Chaser is a runner for Chaser against Exemplor.
 
 == FEATURES/PROBLEMS:
 
-* It only mutates the return values of methods.
-* It works in ruby 1.9, Windows, and JRuby.
+* Timeout option may not work properly.
+* This gem doesn't have any tests of itself.
 
 == REQUIREMENTS:
 
-* Test/Unit. Ruby 1.9 needs the test-unit gem, while ruby 1.8 doesn't require anything!
+* Exemplor
+* Chaser
 
 == INSTALL:
 
 * Add gemcutter as a gem source.
-* sudo gem install chaser
+* sudo gem install exemplor-chaser
 
 == LICENSE:
 

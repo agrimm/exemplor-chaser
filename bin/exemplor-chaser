@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby
 
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
-require 'test_unit_chaser'
+require 'exemplor-chaser'
 require 'optparse'
 
 force = false
@@ -9,24 +9,24 @@ force = false
 opts = OptionParser.new do |opts|
   opts.banner = "Usage: #{File.basename($0)} class_name [method_name]"
   opts.on("-v", "--verbose", "Loudly explain chaser run") do |opt|
-    TestUnitChaser.debug = true
+    ExemplorChaser.debug = true
   end
 
-  opts.on("-V", "--version", "Prints Chaser's version number") do |opt|
-    puts "Chaser #{Chaser::VERSION}"
+  opts.on("-V", "--version", "Prints exemplor-chaser's version number") do |opt|
+    puts "exemplor-chaser #{ExemplorChaser::VERSION}"
     exit 0
   end
 
   opts.on("-t", "--tests TEST_PATTERN",
-          "Location of tests (glob). Unix-style even on Windows, so use forward slashes.") do |pattern|
-    TestUnitChaser.test_pattern = pattern
+          "Location of examples (glob). Unix-style even on Windows, so use forward slashes.") do |pattern|
+    ExemplorChaser.test_pattern = pattern
   end
 
-  opts.on("-F", "--force", "Ignore initial test failures") do |opt|
+  opts.on("-F", "--force", "Ignore initial exemplor failures") do |opt|
     force = true
   end
 
-  opts.on("-T", "--timeout SECONDS", "The maximum time for a test run in seconds",
+  opts.on("-T", "--timeout SECONDS", "The maximum time for an exemplor run in seconds",
                                      "Used to catch infinite loops") do |timeout|
     Chaser.timeout = timeout.to_i
     puts "Setting timeout at #{timeout} seconds."
@@ -39,7 +39,7 @@ opts = OptionParser.new do |opts|
 end
 
 looks_like_rails = test ?f, 'config/environment.rb'
-TestUnitChaser.test_pattern = "test/**/*.rb" if looks_like_rails
+ExemplorChaser.test_pattern = "examples/**/*.rb" if looks_like_rails
 
 opts.parse!
 
@@ -51,5 +51,5 @@ unless impl then
   exit 1
 end
 
-exit TestUnitChaser.validate(impl, meth, force)
+exit ExemplorChaser.validate(impl, meth, force)
 

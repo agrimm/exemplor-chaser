@@ -1,21 +1,15 @@
 #!/usr/bin/env ruby
 
-require 'test/unit/autorunner'
-require 'test/unit/testcase'
+require 'exemplor'
 require 'chaser'
 
-$: << 'lib' << 'test'
+# Exemplor doesn't have passthrough exceptions.
 
-# Make sure test/unit doesn't swallow our timeout
-begin
-  Test::Unit::TestCase::PASSTHROUGH_EXCEPTIONS << Chaser::Timeout
-rescue NameError
-  # ignore
-end
+class ExemplorChaser < Chaser
 
-class TestUnitChaser < Chaser
+  VERSION = '0.0.2'
 
-  @@test_pattern = 'test/test_*.rb'
+  @@test_pattern = 'examples/_examples*.rb' # Fixme what's idiomatic here?
   @@tests_loaded = false
 
   def self.test_pattern=(value)
@@ -49,7 +43,7 @@ class TestUnitChaser < Chaser
     passed = chaser.tests_pass?
 
     unless force or passed then
-      abort "Initial run of tests failed... fix and run chaser again"
+      abort "Initial run of examples failed... fix and run chaser again"
     end
 
     if self.guess_timeout? then
@@ -61,9 +55,9 @@ class TestUnitChaser < Chaser
     puts "Timeout set to #{adjusted_timeout} seconds."
 
     if passed then
-      puts "Initial tests pass. Let's rumble."
+      puts "Initial examples pass. Let's rumble."
     else
-      puts "Initial tests failed but you forced things. Let's rumble."
+      puts "Initial examples failed but you forced things. Let's rumble."
     end
     puts
 
@@ -98,7 +92,7 @@ class TestUnitChaser < Chaser
 
   def tests_pass?
     silence_stream do
-      result = Test::Unit::AutoRunner.run
+      result = Exemplor.examples.run([]).zero?
       ARGV.clear
       result
     end
